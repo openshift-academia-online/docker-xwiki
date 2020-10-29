@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xwiki-deploy
+spec:
+  selector:
+    matchLabels:
+      app: xwiki
+  template:
+    metadata:
+      labels:
+        app: xwiki
+    spec:
+      volumes:
+        - 
+          name: xwiki-vol
+          persistentVolumeClaim:
+            claimName: xwiki-pvc
+      containers:
+        - 
+          env:
+            - 
+              name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: DB_DATABASE
+                  name: xwiki-secret
+            - 
+              name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: DB_HOST
+                  name: xwiki-secret
+            - 
+              name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: DB_PASSWORD
+                  name: xwiki-secret
+            - 
+              name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: DB_USER
+                  name: xwiki-secret
+          image: secobau/docker-xwiki:2.5
+          name: xwiki-container
+          ports:
+            - 
+              containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - 
+              mountPath: /usr/local/xwiki          
+              name: xwiki-vol
