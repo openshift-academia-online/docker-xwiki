@@ -43,9 +43,12 @@ jobs:
         sed -i /imagePullPolicy/s/Always/Never/ $compose
         kubectl apply -f $compose
         
-        while true
-          do
-            sleep 10
-            kubectl get deploy
-            kubectl get deploy | grep '\([0-9]\)/\1' && break
+        for deploy in $( kubectl get deploy --no-headers | awk '{ print $1 }' )
+          do 
+            while true
+              do
+                sleep 10
+                kubectl get deploy
+                kubectl get deploy | grep "$deploy.*\([0-9]\)/\1" && break
+              done
           done
