@@ -1,4 +1,4 @@
-![CI](https://github.com/openshift-academia-online/docker-xwiki/workflows/CI/badge.svc?branch=ops)
+![CI](https://github.com/openshift-academia-online/docker-xwiki/workflows/CI/badge.svg?branch=ops)
 
 # What is XWiki
 
