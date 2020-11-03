@@ -250,20 +250,6 @@ spec:
       storage: 1Gi
   storageClassName: manual
 ---
-apiVersion: route.openshift.io/v1
-kind: Route
-metadata:
-  name: xwiki-route
-spec:
-  to:
-    kind: Service
-    name: xwiki-svc
-  port:
-    targetPort: 8080
-  tls:
-    insecureEdgeTerminationPolicy: Redirect
-    termination: edge
----
 apiVersion: v1
 stringData:
   MYSQL_DATABASE: xwiki
@@ -302,9 +288,11 @@ kind: Service
 metadata:
   name: xwiki-svc
 spec:
-  selector:
-    app: xwiki
   ports:
     - 
+      nodePort: 30000
       port: 8080
+  selector:
+    app: xwiki
+  type: NodePort
 ---
