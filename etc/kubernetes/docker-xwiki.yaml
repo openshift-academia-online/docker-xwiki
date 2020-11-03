@@ -156,7 +156,7 @@ spec:
                 secretKeyRef:
                   key: DB_USER
                   name: xwiki-secret
-          image: secobau/docker-xwiki:2.5
+          image: openshift-academia-online/docker-xwiki:latest
           name: xwiki-container
           ports:
             - 
@@ -214,6 +214,19 @@ spec:
     path: /docker-xwiki/mysql-pv
 ---
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: xwiki-pv
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /docker-xwiki/xwiki-pv
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-pvc
@@ -235,7 +248,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: gp2
+  storageClassName: manual
 ---
 apiVersion: route.openshift.io/v1
 kind: Route
@@ -263,11 +276,11 @@ metadata:
 type: Opaque
 ---
 apiVersion: v1
-data:
-  DB_DATABASE: eHdpa2k=
-  DB_HOST: bXlzcWwteHdpa2k=
-  DB_PASSWORD: eHdpa2k=
-  DB_USER: eHdpa2k=
+stringData:
+  DB_DATABASE: xwiki
+  DB_HOST: mysql-svc
+  DB_PASSWORD: xwiki
+  DB_USER: xwiki
 kind: Secret
 metadata:
   name: xwiki-secret
