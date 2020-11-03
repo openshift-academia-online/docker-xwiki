@@ -41,17 +41,21 @@ jobs:
         kubectl taint node $master node-role.kubernetes.io/master:NoSchedule-
         
         sed -i /imagePullPolicy/s/Always/Never/ $compose
+        cat $compose
         kubectl apply -f $compose
         
+        sleep 60
+        kubectl describe deploy
+
         for deploy in $( kubectl get deploy --no-headers | awk '{ print $1 }' )
           do 
             while true
               do
                 sleep 10
                 kubectl get deploy | grep "$deploy.*\([0-9]\)/\1" && break
+                break
               done
           done
 
-        kubectl describe deploy
         
         curl localhost:30000
