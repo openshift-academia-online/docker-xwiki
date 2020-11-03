@@ -88,7 +88,7 @@ spec:
                 secretKeyRef:
                   key: MYSQL_USER
                   name: mysql-secret
-          image: 'mysql:5.7'
+          image: mysql:5.7.32@sha256:ce6815027949d0b48e3097a94fa3ec062866a78868d50c7900c697c13574599f
           name: mysql-container
           ports:
             - 
@@ -124,11 +124,6 @@ spec:
       labels:
         app: xwiki
     spec:
-      volumes:
-        - 
-          name: xwiki-vol
-          persistentVolumeClaim:
-            claimName: xwiki-pvc
       containers:
         - 
           env:
@@ -157,6 +152,7 @@ spec:
                   key: DB_USER
                   name: xwiki-secret
           image: openshift-academia-online/docker-xwiki:latest
+          imagePullPolicy: Always
           name: xwiki-container
           ports:
             - 
@@ -166,6 +162,11 @@ spec:
             - 
               mountPath: /usr/local/xwiki          
               name: xwiki-vol
+      volumes:
+        - 
+          name: xwiki-vol
+          persistentVolumeClaim:
+            claimName: xwiki-pvc
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
