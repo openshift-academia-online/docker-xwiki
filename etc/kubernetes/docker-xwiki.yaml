@@ -151,7 +151,7 @@ spec:
                 secretKeyRef:
                   key: DB_USER
                   name: xwiki-secret
-          image: openshift-academia-online/docker-xwiki-ops:latest
+          image: openshiftacademiaonline/docker-xwiki-ops:latest
           imagePullPolicy: Always
           name: xwiki-container
           ports:
