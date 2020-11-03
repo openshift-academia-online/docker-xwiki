@@ -2,7 +2,7 @@ name: CI
 on: 
   push:
     branches: 
-    - ops
+    - v1.0-ops
 jobs: 
   kubernetes: 
     env:
@@ -54,4 +54,5 @@ jobs:
 
         kubectl describe deploy
         
-        curl localhost:30000
+        curl localhost:30000 -I
+        curl localhost:30000 -v
